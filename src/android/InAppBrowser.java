@@ -554,9 +554,13 @@ public class InAppBrowser extends CordovaPlugin {
                 main.setOrientation(LinearLayout.VERTICAL);
 
                 // Toolbar layout
+                Resources activityRes = cordova.getActivity().getResources();
                 RelativeLayout toolbar = new RelativeLayout(cordova.getActivity());
                 //Please, no more black!
-                toolbar.setBackgroundColor(android.graphics.Color.LTGRAY);
+                int backgroundResID = activityRes.getIdentifier("ic_background", "drawable", cordova.getActivity().getPackageName());
+                Drawable backgroundDrawable = activityRes.getDrawable(backgroundResID);
+                toolbar.setBackground(backgroundDrawable);
+//                toolbar.setBackgroundColor(android.graphics.Color.LTGRAY);
                 toolbar.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, this.dpToPixels(44)));
                 toolbar.setPadding(this.dpToPixels(2), this.dpToPixels(2), this.dpToPixels(2), this.dpToPixels(2));
                 toolbar.setHorizontalGravity(Gravity.LEFT);
@@ -576,7 +580,6 @@ public class InAppBrowser extends CordovaPlugin {
                 back.setLayoutParams(backLayoutParams);
                 back.setContentDescription("Back Button");
                 back.setId(Integer.valueOf(2));
-                Resources activityRes = cordova.getActivity().getResources();
                 int backResId = activityRes.getIdentifier("ic_action_previous_item", "drawable", cordova.getActivity().getPackageName());
                 Drawable backIcon = activityRes.getDrawable(backResId);
                 if (Build.VERSION.SDK_INT >= 16)
@@ -724,14 +727,13 @@ public class InAppBrowser extends CordovaPlugin {
 
                 // Add the views to our toolbar
                 toolbar.addView(actionButtonContainer);
-                toolbar.addView(edittext);
+                // toolbar.addView(edittext);
                 toolbar.addView(close);
-
                 // Don't add the toolbar if its been disabled
-                if (getShowLocationBar()) {
-                    // Add our toolbar to our main view/layout
-                    main.addView(toolbar);
-                }
+               if (getShowLocationBar()) {
+                   // Add our toolbar to our main view/layout
+                   main.addView(toolbar);
+               }
 
                 // Add our webview to our main view/layout
                 main.addView(inAppWebView);
